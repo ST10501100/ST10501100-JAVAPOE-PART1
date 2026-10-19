@@ -162,10 +162,33 @@ public class Messages {
                 }
             }
             
+            //
+            
+            Message newMessage = new Message(
+            messageID,
+            i,
+            recipient, messageText);
+            
+            //Display
+            
+            Sytem.out.println("Message Hash:"+ newMessage.createMessageHash());
+            
+            //
+            
+            String reult = newMessage. sentMessage(input);
+            
+            if (newMessage.messageStatus.equals("Sent")) {
+                
+                System.out.println("==========================================");
+                System.out.println("Message ID:"+ newMessage.messageID);
+                System.out.println("Message Hash"+ newMessage.recipient);
+                System.out.println("Message:"+ newMessage.message);
+                System.out.println("==========================================");
+            }
         }
     }
             
-            
+            System.out.println("Total messages sent:"+ returnTotalMessages());
             
             }
     
