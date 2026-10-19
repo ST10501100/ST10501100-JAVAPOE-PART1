@@ -1,4 +1,4 @@
-  /*
+ /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
@@ -28,8 +28,9 @@ public class Messages {
     private static  ArrayList<Messages> storedMessages = new ArrayList<>();
     
     public Message(
-           String messageID,recipient, message
-           int messageNumber) {
+           int msgNumber,
+           String messageID,recipient, message)
+             {
     
     this.messageID= messageID;
     this.messageNumber = messageNumber; 
@@ -48,7 +49,7 @@ public class Messages {
         //
         System.out.print("How many messages would you like to enter?");
         
-        int numOfMessages= input.nectInt();
+        int numOfMessages= input.nextInt();
         input.nextLine();
         
         //
@@ -85,7 +86,86 @@ public class Messages {
                     running = false;
                     
                     System.out.println("Thanks for using QuickChat:");
+                    
+                    break;
+                    
+                default:
+                    
+                    System.out.println("Invalid option");
+                  
             }
         }
     }
-}
+    
+    //Send messages
+    
+    public static void sendMessages(
+             Scanner input,
+            int numOfMessages) {
+        
+        //
+        
+        for (int i = 1; i <= numOfMessages; i++){
+            System.out.println("=================");
+            System.out.println("MESSAGE"+ i);
+            System.out.println("==================");
+            
+            //Message ID
+            
+            String messageID = generateMessageID();
+            
+            System.out.println("Message ID generated:"+ messageID);
+            
+            //RECIPIENT
+            
+            String recipient;
+            
+            while (true) {
+                //Prompt
+                Sytem.out.print("Enter recipient's cellphone number:");
+                recipient = input.nextLine();
+                Message temporaryMessage = new Message(messageID,
+                i, recipient , "");
+                
+            if (temporaryMesage.checkRecipientCell()){
+                
+                Sysyem.out.println("Cellphone number succesfully Captured:");
+                
+                break;
+                
+            } else {
+                System.out.println("Cellphone number is incorrectly formatted"+"does not contain an internationsl code"+"Correct format and try again");
+                
+                 
+            }
+            }
+            
+            //
+            
+            String msgText;
+            
+            while (true) {
+                
+                Sytem.out.print("Enter your message:");
+                msgText = input.nextLine();
+                
+                if (msgText.lenght()<= 250){
+                    
+                    break;
+                    
+                   
+                } else {
+                     
+                    System.out.println("Enter message with less than 250"+ "characters.");
+                    
+                  
+                }
+            }
+            
+        }
+    }
+            
+            
+            
+            }
+    
