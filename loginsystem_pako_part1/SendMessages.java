@@ -1,3 +1,13 @@
+ /*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+
+/**
+ *
+ * @author Student
+ */
+
 import java.util.Scanner;
 import java.io.FileWriter;
 import java.util.ArrayList;  //Variables for messages
@@ -27,5 +37,12 @@ public class Messages {
     this.message = message;
     this.messageHash = createMessageHash();
 }
-    
+ 
+           
+   //QuickChat
+           
+    public static void startQuickChat(Scanner input){
+        
+        Sytem.out.prinln()
+    }
 }
