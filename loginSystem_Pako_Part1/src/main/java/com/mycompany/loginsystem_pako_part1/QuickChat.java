@@ -1,4 +1,4 @@
- package com.mycompany.loginsystem_pako_part1;
+  package com.mycompany.loginsystem_pako_part1;
 
 import java.util.Scanner;
 
@@ -6,7 +6,8 @@ public class QuickChat {
 
     public static void main(String[] args) {
         Scanner input = new Scanner(System.in);
-        
+        StoreMessage store = new StoreMessage();
+
         System.out.println("Welcome to QuickChat");
         System.out.print("How many messages do you wish to send? ");
         int numMessages = input.nextInt();
@@ -18,16 +19,50 @@ public class QuickChat {
             System.out.println("");
             System.out.println("--- QuickChat Menu ---");
             System.out.println("1) Send Messages");
-            System.out.println("2) Show recently sent messages (Coming Soon)");
+            System.out.println("2) Show Stored Messages / Reports");
             System.out.println("3) Quit");
             System.out.print("Choose option: ");
             String option = input.nextLine();
 
             if (option.equals("1")) {
-                sentCount = sentCount + sendMessages(input, numMessages);
+                sentCount = sentCount + sendMessages(input, numMessages, store);
             }
             if (option.equals("2")) {
-                System.out.println("Coming Soon  ");
+                System.out.println("");
+                System.out.println("--- Stored Messages Menu ---");
+                System.out.println("1) Display All Stored Messages");
+                System.out.println("2) Display Longest Message");
+                System.out.println("3) Search by Recipient");
+                System.out.println("4) Delete Message by Hash");
+                System.out.println("5) Display Message Report");
+                System.out.println("6) Read Messages from JSON File");
+                System.out.print("Choose option: ");
+                String subOption = input.nextLine();
+
+                if (subOption.equals("1")) {
+                    store.displayStoredMessages();
+                }
+                if (subOption.equals("2")) {
+                    store.displayLongestMessage();
+                }
+                if (subOption.equals("3")) {
+                    System.out.print("Enter recipient to search (+27...): ");
+                    String searchRec = input.nextLine();
+                    store.searchByRecipient(searchRec);
+                }
+                if (subOption.equals("4")) {
+                    System.out.print("Enter message hash to delete: ");
+                    String hashToDelete = input.nextLine();
+                    store.deleteMessageByHash(hashToDelete);
+                }
+                if (subOption.equals("5")) {
+                    store.displayMessageReport();
+                }
+                if (subOption.equals("6")) {
+                    System.out.print("Enter JSON file name (e.g. storedMessages.json): ");
+                    String fileName = input.nextLine();
+                    store.readFromJSONFile(fileName);
+                }
             }
             if (option.equals("3")) {
                 System.out.println("Total messages sent: " + sentCount);
@@ -40,9 +75,9 @@ public class QuickChat {
         }
     }
 
-    public static int sendMessages(Scanner input, int numOfMessages) {
+    public static int sendMessages(Scanner input, int numOfMessages, StoreMessage store) {
         int count = 0;
-        
+
         for (int i = 1; i <= numOfMessages; i++) {
             String messageID = Messages.generateMessageID();
             System.out.println("");
@@ -77,7 +112,7 @@ public class QuickChat {
             Messages msg1 = new Messages(messageID, i, recipient, content, "");
             String hash = msg1.createMessageHash();
             Messages finalMsg = new Messages(messageID, i, recipient, content, hash);
-            
+
             System.out.println("Message Hash: " + hash);
             System.out.println("1) Send Message");
             System.out.println("2) Disregard Message");
@@ -97,7 +132,7 @@ public class QuickChat {
                 System.out.println("Message disregarded - Press 0 to delete");
             }
             if (choice.equals("3")) {
-                System.out.println("Message stored to send later");
+                store.storeMessage(finalMsg);
             }
         }
         return count;
