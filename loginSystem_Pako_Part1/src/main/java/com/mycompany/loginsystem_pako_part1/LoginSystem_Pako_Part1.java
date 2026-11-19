@@ -1,7 +1,7 @@
  /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  */
- package com.mycompany.loginsystem_pako_part1;
+package com.mycompany.loginsystem_pako_part1;
 import java.util.Scanner;
 
 public class LoginSystem_Pako_Part1 {
@@ -67,8 +67,13 @@ public class LoginSystem_Pako_Part1 {
      System.out.println();
      System.out.println("Registration Successful");
      System.out.println("Welcome " + stName + " " + surname);
+     System.out.println();
+
+     // NEW - Open QuickChat after registration - runs as a whole
+     myInputs.nextLine(); // Clear the enter key so QuickChat doesn't skip
+     QuickChat.main(null);
       
-     myInputs.close();
+     // Do NOT close scanner here, QuickChat still needs it
     }
     
     public static boolean checkPassword (String password){
@@ -124,3 +129,4 @@ public class LoginSystem_Pako_Part1 {
     
     
     }
+            
