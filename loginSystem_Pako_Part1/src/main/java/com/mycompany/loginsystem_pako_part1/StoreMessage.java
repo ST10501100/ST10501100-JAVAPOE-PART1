@@ -2,6 +2,7 @@
 
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.io.FileWriter;
 
 public class StoreMessage {
 
@@ -28,11 +29,48 @@ public class StoreMessage {
         messageContents[count] = msg.messageContent;
         messageHashes[count] = msg.messageHash;
         count = count + 1;
+
         System.out.println("Message stored to send later");
         System.out.println("MessageID: " + msg.messageID);
         System.out.println("Message Hash: " + msg.messageHash);
         System.out.println("Recipient: " + msg.recipient);
         System.out.println("Message: " + msg.messageContent);
+
+        // Also save to JSON file
+        saveToJSONFile(msg);
+    }
+
+    // NEW - Writes the message to storedMessages.json
+    public void saveToJSONFile(Messages msg) {
+        try {
+            FileWriter writer = new FileWriter("storedMessages.json", true);
+            writer.write("{\"messageID\":\"" + msg.messageID + "\",");
+            writer.write("\"messageNumber\":" + msg.messageNumber + ",");
+            writer.write("\"recipient\":\"" + msg.recipient + "\",");
+            writer.write("\"message\":\"" + msg.messageContent + "\",");
+            writer.write("\"hash\":\"" + msg.messageHash + "\"}\n");
+            writer.close();
+            System.out.println("Message saved to storedMessages.json");
+        } catch (Exception e) {
+            System.out.println("Error saving to JSON file: " + e.getMessage());
+        }
+    }
+
+    // Rewrites the whole JSON file from the array - used after delete
+    public void rewriteJSONFile() {
+        try {
+            FileWriter writer = new FileWriter("storedMessages.json", false);
+            for (int i = 0; i < count; i++) {
+                writer.write("{\"messageID\":\"" + messageIDs[i] + "\",");
+                writer.write("\"messageNumber\":" + messageNumbers[i] + ",");
+                writer.write("\"recipient\":\"" + recipients[i] + "\",");
+                writer.write("\"message\":\"" + messageContents[i] + "\",");
+                writer.write("\"hash\":\"" + messageHashes[i] + "\"}\n");
+            }
+            writer.close();
+        } catch (Exception e) {
+            System.out.println("Error updating JSON file: " + e.getMessage());
+        }
     }
 
     public void displayStoredMessages() {
@@ -111,6 +149,7 @@ public class StoreMessage {
                 messageHashes[i] = messageHashes[i + 1];
             }
             count = count - 1;
+            rewriteJSONFile();
             System.out.println("Message with hash " + hashToDelete + " successfully deleted.");
         }
     }
@@ -142,8 +181,13 @@ public class StoreMessage {
                     String rec = getValueFromJSON(line, "recipient");
                     String content = getValueFromJSON(line, "message");
                     String hash = getValueFromJSON(line, "hash");
-                    Messages msg = new Messages(id, num, rec, content, hash);
-                    storeMessage(msg);
+                    // Add to array only, don't re-save to file or you'll duplicate
+                    messageIDs[count] = id;
+                    messageNumbers[count] = num;
+                    recipients[count] = rec;
+                    messageContents[count] = content;
+                    messageHashes[count] = hash;
+                    count = count + 1;
                 }
             }
             reader.close();
